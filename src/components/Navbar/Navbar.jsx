@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-icons">
-        <NavLink to="/home" activeClassName="active">
+        <NavLink to="/" activeClassName="active">
           <img src={homeInactive} alt="Home" className="icon" />
         </NavLink>
         <NavLink to="/search" activeClassName="active">
@@ -31,7 +31,7 @@ const Navbar = () => {
         </NavLink>
       </div>
       <div className="navbar-create-post">
-        <img src={createPost} alt="Create Post" className="icon" />
+        <img src={createPost} alt="Create Post" className="icon-post" />
       </div>
     </nav>
   );
