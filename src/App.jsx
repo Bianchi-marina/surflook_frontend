@@ -16,7 +16,7 @@ function App() {
         {/* //rotas privadas */}
         <Route element={<RootLayout />}>
             <Route index element= {<Home/>} />
-            <Route path="/search-location" element={<Location/>} />
+            <Route path="/search" element={<Location/>} />
             <Route path="/weather" element={<Weather/>} />
             <Route path="/profile" element={<Profile/>} />
         </Route>

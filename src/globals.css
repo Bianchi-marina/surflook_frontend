@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap");
 
 :root {
   --background-color: #f1f8ff;
@@ -26,9 +26,9 @@ body {
 .root-layout {
   display: grid;
   grid-template-areas:
-    "header header"
+    "navbar header"
     "navbar main"
-    "footer footer";
+    "navbar footer";
   grid-template-columns: 200px 1fr;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
@@ -39,17 +39,23 @@ body {
   padding: 1rem;
   font-family: var(--font-family-inter);
   font-size: 2rem;
+  background-color: var(--background-color);
 }
 
 .root-layout nav {
   grid-area: navbar;
   padding: 1rem;
   font-size: 1rem;
+  background-color: var(--background-color);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .root-layout section {
   grid-area: main;
-  padding: 1rem;
+  padding: 4rem 1rem 1rem 1rem;
   overflow-y: auto;
   font-family: var(--font-family-poppins);
   font-size: 1rem;
@@ -61,6 +67,7 @@ body {
   text-align: center;
   font-family: var(--font-family-inter);
   font-size: 1rem;
+  background-color: var(--background-color);
 }
 
 @media (max-width: 768px) {
@@ -82,9 +89,10 @@ body {
     width: 100%;
     text-align: center;
     z-index: 1000;
+    height: auto;
   }
 
   .root-layout section {
-    padding-bottom: 3.5rem;
+    padding: 4rem 1rem 3.5rem 1rem;
   }
 }
