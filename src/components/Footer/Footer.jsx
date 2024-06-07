@@ -1,10 +1,11 @@
+import './Footer.css';
 
 const Footer = () => {
   return (
-    <div>
-      Footer!
-    </div>
-  )
-}
+    <footer className="footer">
+      © 2024 SurfLook from MB
+    </footer>
+  );
+};
 
-export default Footer
+export default Footer;

@@ -1,8 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-// Importando ícones
-
 import homeInactive from "../../assets/inactive/home.png";
 
 import searchInactive from "../../assets/inactive/loc.png";
