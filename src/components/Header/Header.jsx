@@ -5,7 +5,7 @@ import sun from "../../assets/light/sun.png";
 import logout from "../../assets/light/logout.png";
 import user from "../../assets/light/profile.png";
 
-const Header = () => {
+const Header = ( {onConfirm}) => {
 
   function toggleTheme() {
     const html = document.querySelector("html");
@@ -43,7 +43,10 @@ const Header = () => {
           <img src={sun} alt="Sun Icon" className="icon" id="sun-icon" />
           <img src={moon} alt="Moon Icon" className="icon" id="moon-icon" />
         </div>
+        <button onClick={onConfirm}>
         <img src={logout} alt="Logout Icon" className="icon logout-icon" />
+        </button>
+        
       </div>
     </header>
   );

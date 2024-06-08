@@ -1,0 +1,95 @@
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+}
+
+.popupContent {
+  background: white;
+  padding: 50px;
+  border-radius: 37px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Poppins;
+}
+
+.popupInfos {
+display: flex;
+flex-direction: column;
+max-width: 70vw;
+align-items: center;
+}
+
+
+.closeButton {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.popupForm {
+  width: 100%;
+}
+
+.button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.yesButton {
+  width: 100%;
+  background-color: green;
+}
+
+.noButton {
+  width: 100%;
+  background-color: red;
+}
+
+
+input [type="text"] {
+  margin: 0;
+  border: 1px solid #6b6b6b;
+  border-radius: 5px;
+  color: #001c36;
+
+}
+
+button[type="submit"] {
+  margin: 0;
+  background-color: #00070e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+h1 {
+  margin: 0;
+  font-size: 36px;
+  color: #00070e;
+}
+
+p {
+  margin: 0;
+  font-size: 14px;
+  color: #00070e;
+  margin-bottom: 40px;
+}

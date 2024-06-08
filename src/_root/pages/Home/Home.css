@@ -1,52 +1,50 @@
 .home-content {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.intro-text {
+  text-align: left;
+}
+
+.intro-text p {
+  margin: 0.5rem 0;
+}
+
+.posts-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.overlay-logo {
+  width: 390.37px;
+  height: 199px;
+  opacity: 30%;
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    width: 100%;
+    padding: 1rem;
   }
-  
-  .intro-text {
-    text-align: left;
-  }
-  
+
   .intro-text p {
-    margin: 0.5rem 0;
+    font-size: 14px;
   }
-  
-  .posts-section {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .overlay-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  
+
   .overlay-logo {
-    width: 390.37px;
-    height: 199px;
-    opacity: 30%;
+    width: 206px;
+    height: 105.01px;
   }
-  
-  @media (max-width: 768px) {
-    .home-container {
-      width: 100%;
-      padding: 1rem;
-    }
-
-    .intro-text p {
-        font-size: 14px;
-      }
-
-      .overlay-logo {
-        width: 206px;
-        height: 105.01px;
-      }
-
-  }
-  
+}

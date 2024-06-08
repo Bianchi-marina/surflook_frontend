@@ -48,6 +48,10 @@
     filter: brightness(1.2);
   }
 
+  .active{
+    filter: brightness(0.8);
+  }
+
   @media (max-width: 768px) {
     .navbar {
       flex-direction: column-reverse;

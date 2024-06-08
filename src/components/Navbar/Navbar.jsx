@@ -2,16 +2,12 @@ import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
 import homeInactive from "../../assets/inactive/home.png";
-
 import searchInactive from "../../assets/inactive/loc.png";
-
 import weatherInactive from "../../assets/inactive/weather.png";
-
 import profileInactive from "../../assets/inactive/profile.png";
-
 import createPost from "../../assets/light/post.png";
 
-const Navbar = () => {
+const Navbar = ( {onCreatePost}) => {
   return (
     <nav className="navbar">
       <div className="navbar-icons">
@@ -28,7 +24,7 @@ const Navbar = () => {
           <img src={profileInactive} alt="Profile" className="icon" />
         </NavLink>
       </div>
-      <button className="navbar-create-post">
+      <button className="navbar-create-post" onClick={onCreatePost}>
         <img src={createPost} alt="Create Post" className="icon-post" />
       </button>
     </nav>
