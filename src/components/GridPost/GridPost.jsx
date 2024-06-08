@@ -25,13 +25,13 @@ const GridPost = ({ onConfirm }) => {
             </div>
         </div>
         <div className="post-content">
-          <p className="username">Marina</p>
+          <p className="username">Username</p>
           <div className="tags">
             <span className="tag">Cidade</span>
             <span className="tag">Praia</span>
             <span className="tag">Hora</span>
           </div>
-          <p className="description">Altas hoje!</p>
+          <p className="description">Description</p>
         </div>
       </div>
     </div>

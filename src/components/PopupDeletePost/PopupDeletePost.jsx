@@ -6,8 +6,8 @@ const PopupDeletePost = ({ isOpen, onClose, onConfirm }) => {
         isOpen={isOpen}
         onClose={onClose}
         onConfirm={onConfirm}
-        title="Excluir Post"
-        subtitle="Tem certeza de que deseja excluir este post?"
+        title="Excluir Check"
+        subtitle="Tem certeza de que deseja excluir este check?"
       />
     );
   };
