@@ -10,15 +10,15 @@ import PopupLogout from "../components/PopupLogout/PopupLogout";
 import { Outlet } from "react-router-dom";
 
 const RootLayout = () => {
+  
   const [isCreatePostOpen, setCreatePostOpen] = useState(false);
   const handleCreatePost = (postData) => {
     console.log("Post created:", postData);
-    // Adicione lógica para criar o post, como fazer uma chamada API
   };
+
   const [isLogoutOpen, setLogoutOpen] = useState(false);
   const handleLogout = () => {
     console.log("saiu");
-    // Adicione lógica para criar o post, como fazer uma chamada API
   };
  
 
