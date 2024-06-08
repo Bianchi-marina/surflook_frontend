@@ -15,22 +15,22 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-icons">
-        <NavLink to="/" activeClassName="active">
+        <NavLink to="/">
           <img src={homeInactive} alt="Home" className="icon" />
         </NavLink>
-        <NavLink to="/search" activeClassName="active">
+        <NavLink to="/search">
           <img src={searchInactive} alt="Search" className="icon" />
         </NavLink>
-        <NavLink to="/weather" activeClassName="active">
+        <NavLink to="/weather">
           <img src={weatherInactive} alt="Weather" className="icon" />
         </NavLink>
-        <NavLink to="/profile" activeClassName="active">
+        <NavLink to="/profile">
           <img src={profileInactive} alt="Profile" className="icon" />
         </NavLink>
       </div>
-      <div className="navbar-create-post">
+      <button className="navbar-create-post">
         <img src={createPost} alt="Create Post" className="icon-post" />
-      </div>
+      </button>
     </nav>
   );
 };
