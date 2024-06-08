@@ -1,20 +1,68 @@
 .grid-post {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr); 
   gap: 24px;
+  padding: 20px;
 }
 
 .post {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Inter, sans-serif;
+  overflow: hidden;
+}
+
+.post-media {
+  position: relative;
+  background-color: black;
 }
 
 .post-image {
-  width: 263px;
-  height: 263px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  width: 100%;
+  height: 300px;
+  display: block;
+  object-fit: cover;
+}
+
+.post-icons {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.post-icons .icon {
+  pointer-events: auto;
+}
+
+.post-icons .post-icon {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.like-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.post-icon {
+  padding: 5px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.post-icon img {
+  width: 24px; 
+  height: 24px; 
 }
 
 .post-content {
@@ -29,6 +77,8 @@
 .tags {
   display: flex;
   gap: 8px;
+  margin-bottom: 10px;
+  color: #00070E;
 }
 
 .tag {
@@ -41,4 +91,11 @@
 .description {
   margin-top: 8px;
   font-size: 14px;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .grid-post {
+    grid-template-columns: 1fr; 
+  }
 }
