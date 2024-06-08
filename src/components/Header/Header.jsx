@@ -43,7 +43,7 @@ const Header = ( {onConfirm}) => {
           <img src={sun} alt="Sun Icon" className="icon" id="sun-icon" />
           <img src={moon} alt="Moon Icon" className="icon" id="moon-icon" />
         </div>
-        <button onClick={onConfirm}>
+        <button className="logout-button" onClick={onConfirm}>
         <img src={logout} alt="Logout Icon" className="icon logout-icon" />
         </button>
         
