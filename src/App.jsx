@@ -6,6 +6,8 @@ import {
   Location,
   Weather
 } from "./_root/pages/index"
+import Signin from "./_auth/Sign-in/Signin"
+import Signup from "./_auth/Sign-up/Signup"
 
 import "./globals.css";
 
@@ -13,7 +15,11 @@ function App() {
   return (
     <main>
       <Routes>
-        {/* //rotas privadas */}
+        {/* rotas publicas */}
+        <Route path="/sign-in" element={<Signin />} />
+        <Route path="/sign-up" element={<Signup />} />
+
+        {/* rotas privadas */}
         <Route element={<RootLayout />}>
             <Route index element= {<Home/>} />
             <Route path="/search" element={<Location/>} />
