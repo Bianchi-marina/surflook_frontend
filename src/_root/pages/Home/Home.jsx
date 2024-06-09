@@ -1,5 +1,5 @@
 import './Home.css';
-import overlay from '../../../assets/light/overlay.png';
+import overlay from '../../../assets/light/overlay.svg';
 const Home = () => {
   return (
     <section className="home-container">

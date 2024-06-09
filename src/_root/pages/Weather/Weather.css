@@ -1,0 +1,10 @@
+.error-message {
+    color: red;
+    margin-top: 10px;
+  }
+
+.container-response {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
