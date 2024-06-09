@@ -34,7 +34,7 @@ const SignUp = () => {
               <img src={Logo} alt="logo" />
             </div>
             <div className={styles.titleContainer}>
-              <h1 className={styles.h1}>Crie sua conta</h1>
+              <h1 className={styles.h1}>Entre nessa onda</h1>
             </div>
             <form className={styles.form} onSubmit={handleSubmit(submit)}>
               <Input

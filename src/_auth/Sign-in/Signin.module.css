@@ -10,13 +10,12 @@
 
 .containerLogin {
   display: flex;
-  justify-content: space-between;
-  flex-direction: row;
+  flex-direction: row; 
   align-items: center;
-  width: 688px;
-  max-width: 100%;
-  height: 489px;
-  max-height: 100%;
+  width: 70vw;
+  max-width: 100%; 
+  height: 70vh;
+  max-height: 100%; 
   background: white;
   padding-top: 5px;
 }
@@ -27,8 +26,9 @@
   align-items: center;
   background: white;
   height: 100%;
-  width: 50%;
+  width: 100%; 
 }
+
 
 .titleAndFormContainer {
   display: flex;
@@ -67,9 +67,8 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  gap: 20px;
-  height: 40%;
-  width: 84%;
+  gap: 10px;
+  width: 80%;
 }
 
 .buttonEnviar {
@@ -80,7 +79,6 @@
   border-radius: 10px;
   outline: none;
   border: none;
-  font-size: 10px;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -120,4 +118,15 @@
 
 .img:hover {
   opacity: 1;
+}
+
+@media (max-width: 920px) {
+  .imgContainer {
+    display: none;
+  }
+
+  .containerLogin {
+    width: 90vw; 
+    height: 80vh; 
+  }
 }
