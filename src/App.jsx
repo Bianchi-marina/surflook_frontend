@@ -1,22 +1,22 @@
-import { useContext } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import RootLayout from "./_root/RootLayout";
-import { Home, Profile, Location, Weather } from "./_root/pages/index"
-import Signin from "./_auth/Sign-in/Signin"
-import Signup from "./_auth/Sign-up/Signup"
-
-import { AuthProvider, AuthContext } from "./_auth/AuthContext";
+import { Home, Profile, Location, Weather } from "./_root/pages/index";
+import Signin from "./_auth/Sign-in/Signin";
+import Signup from "./_auth/Sign-up/Signup";
+import { useAuth } from "./_auth/AuthContext";
+import Loader from "./components/Loader/Loader"
 
 import "./globals.css";
 
-function PrivateRoute({ children }) {
-  const { user } = useContext(AuthContext);
-  return user ? children : <Navigate to="/sign-in" />;
-}
-
 function App() {
+  const { user, loading } = useAuth();
+
+
+  if (loading) {
+    return <Loader /> 
+  }
+  
   return (
-    <AuthProvider>
     <main>
       <Routes>
         {/* Rotas públicas */}
@@ -24,16 +24,21 @@ function App() {
         <Route path="/sign-up" element={<Signup />} />
 
         {/* Rotas privadas */}
-        <Route element={<RootLayout />}>
-          <Route index element={<PrivateRoute><Home /></PrivateRoute>} />
-          <Route path="/search" element={<PrivateRoute><Location /></PrivateRoute>} />
-          <Route path="/weather" element={<PrivateRoute><Weather /></PrivateRoute>} />
-          <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-        </Route>
+        {user ? (
+          <>
+            <Route element={<RootLayout />}>
+              <Route index element={<Home />} />
+              <Route path="/search" element={<Location />} />
+              <Route path="/weather" element={<Weather />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+          </>
+        ) : (
+          <Route path="*" element={<Navigate to="/sign-in" />} />
+        )}
       </Routes>
     </main>
-  </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;

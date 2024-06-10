@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header/Header";
 import Navbar from "../components/Navbar/Navbar";
@@ -8,8 +9,10 @@ import PopupLogout from "../components/PopupLogout/PopupLogout";
 
 
 import { Outlet } from "react-router-dom";
+import { account } from "../api/appwrite";
 
 const RootLayout = () => {
+  const navigate = useNavigate()
   
   const [isCreatePostOpen, setCreatePostOpen] = useState(false);
   const handleCreatePost = (postData) => {
@@ -17,8 +20,13 @@ const RootLayout = () => {
   };
 
   const [isLogoutOpen, setLogoutOpen] = useState(false);
-  const handleLogout = () => {
-    console.log("saiu");
+  const handleLogout = async () => {
+    try {
+      await account.deleteSession('current');
+      navigate('./sign-in')
+    } catch (error) {
+      console.log(error);
+    }
   };
  
 

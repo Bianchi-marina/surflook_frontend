@@ -1,25 +1,21 @@
-import styles from './Signin.module.css';
-import Background from '../../assets/_auth/banner.png';
-import Logo from '../../assets/_auth/logo.png';
-import Input from '../../components/Input/Input';
-import { useForm } from 'react-hook-form';
-import { signinFormSchema } from '../../schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from 'react-router-dom';
+import styles from "./Signin.module.css";
+import Background from "../../assets/_auth/banner.png";
+import Logo from "../../assets/_auth/logo.png";
+import { Link,  useNavigate} from "react-router-dom";
+
+import { useState } from "react";
+import { useAuth } from "../AuthContext";
 
 const Signin = () => {
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(signinFormSchema),
-  });
+  const [email, setEmail] =useState('')
+  const [password, setPassword] =useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const submit = (formData) => {
-    console.log(formData);
-    reset();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    await login(email, password)
+    navigate('/')
   };
 
   return (
@@ -36,19 +32,18 @@ const Signin = () => {
                 Será que hoje está valendo a queda?
               </p>
             </div>
-            <form className={styles.form} onSubmit={handleSubmit(submit)}>
-              <Input
-                type="text"
-                label="Email"
-                placeholder="Email"
-                error={errors.email}
-                {...register('email')}
+            <form className={styles.form} onSubmit={handleLogin}>
+              <input
+                type="email"
+                placeholder="E-mail"
+                value={email}
+                onChange={(e)=> setEmail(e.target.value)}
               />
-              <Input
+              <input
                 type="password"
-                label="Password"
-                placeholder="password"
-                {...register('password')}
+                placeholder="Senha"
+                value={password}
+                onChange={(e)=> setPassword(e.target.value)}
               />
               <button className={styles.buttonEnviar} type="submit">
                 Entrar
@@ -56,18 +51,14 @@ const Signin = () => {
             </form>
             <div className={styles.inscreva}>
               <p className={styles.textInscreva}>Ainda não possui uma conta?</p>
-              <Link to={'/sign-up'} className={styles.linkInscreva}>
+              <Link to={"/sign-up"} className={styles.linkInscreva}>
                 Inscreva-se aqui
               </Link>
             </div>
           </div>
         </div>
         <div className={styles.imgContainer}>
-          <img
-            className={styles.img}
-            src={Background}
-            alt="imagem de fundo"
-          />
+          <img className={styles.img} src={Background} alt="imagem de fundo" />
         </div>
       </div>
     </main>

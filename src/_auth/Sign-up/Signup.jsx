@@ -1,25 +1,21 @@
-import { useForm } from 'react-hook-form';
-import { signupFormSchema } from '../../schemas/index';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Input from '../../components/Input/Input';
-import { Link } from 'react-router-dom';
-import Logo from '../../assets/_auth/logo.png';
-import Background from '../../assets/_auth/banner.png';
-import styles from './Signup.module.css';
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "../../assets/_auth/logo.png";
+import Background from "../../assets/_auth/banner.png";
+import styles from "./Signup.module.css";
+import { useState } from "react";
+import { useAuth } from "../AuthContext";
 
-const SignUp = () => {
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(signupFormSchema),
-  });
+const Signup = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { signup } = useAuth();
+  const navigate = useNavigate();
 
-  const submit = (formData) => {
-    console.log(formData);
-    reset();
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    await signup(name, email, password);
+    navigate('/sign-in')
   };
 
   return (
@@ -36,27 +32,24 @@ const SignUp = () => {
             <div className={styles.titleContainer}>
               <h1 className={styles.h1}>Entre nessa onda</h1>
             </div>
-            <form className={styles.form} onSubmit={handleSubmit(submit)}>
-              <Input
-                type="text"
-                label="Username"
-                placeholder="Username"
-                error={errors.username}
-                {...register('username')}
+            <form className={styles.form} onSubmit={handleSignup}>
+              <input
+                type="name"
+                placeholder="Nome de usuário"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
-              <Input
-                type="text"
-                label="Email"
-                placeholder="Email"
-                error={errors.email}
-                {...register('email')}
+              <input
+                type="email"
+                placeholder="E-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <Input
+              <input
                 type="password"
-                label="Password"
-                placeholder="Password"
-                error={errors.password}
-                {...register('password')}
+                placeholder="Senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button className={styles.buttonEnviar} type="submit">
                 Cadastrar
@@ -75,5 +68,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
-
+export default Signup;

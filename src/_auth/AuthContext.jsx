@@ -1,52 +1,58 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { account } from "../api/appwrite";
-import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      account
-        .get()
-        .then((response) => {
-          setUser(response);
-        })
-        .catch((error) => {
-          localStorage.removeItem("jwt");
-          setUser(null);
-        });
-    }
+    const checkAuth = async () => {
+      try {
+        const { $id, email, name } = await account.get();
+        setUser({ id: $id, email, name });
+      } catch (error) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAuth();
   }, []);
 
   const login = async (email, password) => {
     try {
-      await account.createEmailSession(email, password);
-      const jwtResponse = await account.createJWT();
-      localStorage.setItem("jwt", jwtResponse.jwt);
-      const user = await account.get();
-      setUser(user);
-      navigate("/");
+      await account.createEmailPasswordSession(email, password);
+      const { $id, email: userEmail } = await account.get();
+      setUser({ id: $id, email: userEmail });
     } catch (error) {
-      console.error(error);
+      console.error("Error no Login", error);
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("jwt");
-    setUser(null);
-    navigate("/sign-in");
+  const signup = async (name, email, password) => {
+    try {
+      await account.create(name, email, password);
+    } catch (error) {
+      console.error("Erro no registro", error);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await account.deleteSession("current");
+      setUser(null);
+    } catch (error) {
+      console.error("Erro no Logout", error);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export { AuthContext, AuthProvider };
+export const useAuth = () => useContext(AuthContext);
