@@ -1,0 +1,375 @@
+import { ID, Query } from "./appwrite";
+import {
+  account,
+  appwriteConfig,
+  avatars,
+  databases,
+  storage,
+} from "./appwrite";
+
+export async function createUserAccount(user) {
+  try {
+    const newAccount = await account.create(
+      ID.unique(),
+      user.email,
+      user.password,
+      user.name
+    );
+    if (!newAccount) throw Error;
+    const avatarUrl = avatars.getInitials(user.name);
+    const newUser = await saveUserToDB({
+      userId: newAccount.$id,
+      name: newAccount.name,
+      email: newAccount.email,
+      imageUrl: avatarUrl,
+    });
+    return newUser;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
+export async function saveUserToDB(user) {
+  try {
+    const newUser = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      ID.unique(),
+      user
+    );
+    return newUser;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const signInAccount = async (email, password) => {
+  try {
+    const response = await account.createEmailPasswordSession(email, password);
+    return response;
+  } catch (error) {
+    console.error("Error signing in:", error);
+    throw error;
+  }
+};
+
+export const getCurrentSession = async () => {
+  try {
+    const session = await account.getSession("current");
+    return session;
+  } catch (error) {
+    console.error("Error getting current session:", error);
+    throw error;
+  }
+};
+
+export async function getCurrentUser() {
+  try {
+    const currentAccount = await account.get();
+    if (!currentAccount) throw Error;
+    const currentUser = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.equal("userId", currentAccount.$id)]
+    );
+    if (!currentUser) throw Error;
+    return currentUser.documents[0];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function signOutAccount() {
+  try {
+    const session = await account.deleteSession("current");
+    return session;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const createPost = async (post) => {
+  const mediaId = ID.unique();
+
+  try {
+ 
+    const uploadedFile = await storage.createFile(appwriteConfig.storageId, mediaId, post.mediaUrl);
+    const mediaUrl = storage.getFilePreview(appwriteConfig.storageId, uploadedFile.$id, 2000, 2000); 
+   
+    const tags = [];
+    if (post.cidade) {
+      tags.push(post.cidade);
+    }
+    if (post.praia) {
+      tags.push(post.praia);
+    }
+
+
+    const createdPost = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      ID.unique(),
+      {
+        creator: post.creator,
+        creatorName: post.creatorName,
+        description: post.description,
+        mediaUrl: mediaUrl,
+        created_at: new Date().toISOString(),
+        tags: tags
+      }
+    );
+
+    return createdPost;
+  } catch (error) {
+    console.error("Error creating post:", error);
+    throw error;
+  }
+};
+
+export async function uploadFile(file) {
+  try {
+    const uploadedFile = await storage.createFile(
+      appwriteConfig.storageId,
+      ID.unique(),
+      file
+    );
+    return uploadedFile;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function getFilePreview(fileId) {
+  try {
+    const fileUrl = storage.getFilePreview(
+      appwriteConfig.storageId,
+      fileId,
+      2000,
+      2000,
+      "top",
+      100
+    );
+    if (!fileUrl) throw Error;
+    return fileUrl;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getAllPosts() {
+  try {
+    const posts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId
+    );
+
+    if (!posts) {
+      throw new Error("No posts found");
+    }
+
+    return posts.documents;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    throw error;
+  }
+}
+
+export async function searchPostsByLocation(cidade, praia) {
+  try {
+    const allPosts = await getAllPosts();
+
+    const filteredPosts = allPosts.filter(post => {
+      const hasCidade = cidade ? post.tags.includes(cidade) : true;
+      const hasPraia = praia ? post.tags.includes(praia) : true;
+      return hasCidade && hasPraia;
+    });
+
+    return filteredPosts;
+  } catch (error) {
+    console.error("Error searching posts:", error);
+    throw error;
+  }
+}
+
+
+export async function deleteFile(fileId) {
+  try {
+    await storage.deleteFile(appwriteConfig.storageId, fileId);
+    return { status: "ok" };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deleteAllPosts() {
+  try {
+    const response = await databases.deleteCollectionDocuments(
+      appwriteConfig.postCollectionId
+    );
+
+    if (response.status === "error") {
+      throw new Error("Failed to delete all posts");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error deleting all posts:", error);
+    throw error;
+  }
+}
+
+export async function getRecentPosts() {
+  try {
+    const posts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(20)]
+    );
+    if (!posts) throw Error;
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getPostById(postId) {
+  try {
+    const post = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId
+    );
+    return post;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updatePost(post) {
+  const hasFileToUpdate = post.file.length > 0;
+  try {
+    let image = { imageUrl: post.imageUrl, imageId: post.imageId };
+    if (hasFileToUpdate) {
+      const uploadedFile = await uploadFile(post.file[0]);
+      if (!uploadedFile) throw Error;
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
+    }
+    const tags = post.tags?.replace(/ /g, "").split(",") || [];
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      post.postId,
+      {
+        caption: post.caption,
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
+        location: post.location,
+        tags: tags,
+      }
+    );
+    if (!updatedPost) {
+      if (hasFileToUpdate) {
+        await deleteFile(image.imageId);
+      }
+      throw Error;
+    }
+    if (hasFileToUpdate) {
+      await deleteFile(post.imageId);
+    }
+    return updatedPost;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deletePost(postId, imageId) {
+  if (!postId || !imageId) return;
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId
+    );
+    if (!statusCode) throw Error;
+    await deleteFile(imageId);
+    return { status: "Ok" };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUserPosts(userId) {
+  if (!userId) return;
+  try {
+    const post = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
+    );
+    if (!post) throw Error;
+    return post;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUserById(userId) {
+  try {
+    const user = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId
+    );
+    if (!user) throw Error;
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updateUser(user) {
+  const hasFileToUpdate = user.file.length > 0;
+  try {
+    let image = { imageUrl: user.imageUrl, imageId: user.imageId };
+    if (hasFileToUpdate) {
+      const uploadedFile = await uploadFile(user.file[0]);
+      if (!uploadedFile) throw Error;
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
+    }
+    const updatedUser = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      user.userId,
+      {
+        name: user.name,
+        bio: user.bio,
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
+      }
+    );
+    if (!updatedUser) {
+      if (hasFileToUpdate) {
+        await deleteFile(image.imageId);
+      }
+      throw Error;
+    }
+    if (user.imageId && hasFileToUpdate) {
+      await deleteFile(user.imageId);
+    }
+    return updatedUser;
+  } catch (error) {
+    console.log(error);
+  }
+}

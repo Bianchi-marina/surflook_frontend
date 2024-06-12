@@ -27,7 +27,7 @@ const WeatherGrid = ({ weatherData }) => {
         </div>
         <div className="icons-container">
           <img className="icon" src={flag} alt="Wind Direction Icon" />
-          <p>{wind.deg}°</p>
+          <p>{wind.direction}°</p>
           <p>Direção do Vento</p>
         </div>
         <div className="icons-container">

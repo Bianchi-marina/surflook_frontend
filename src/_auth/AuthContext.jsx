@@ -1,58 +1,76 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { account } from "../api/appwrite";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getCurrentUser } from "../api/api";
+import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext(null);
+export const INITIAL_USER = {
+  userId: '',
+  name: '',
+  email: '',
+  imageUrl: '',
+};
+
+const INITIAL_STATE = {
+  user: INITIAL_USER,
+  isLoading: false,
+  isAuthenticated: false,
+  setUser: () => {},
+  setIsAuthenticated: () => {},
+  checkAuthUser: async () => false,
+};
+
+const AuthContext = createContext(INITIAL_STATE);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(INITIAL_USER);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  const checkAuthUser = async () => {
+    try {
+      setIsLoading(true);
+      const currentAccount = await getCurrentUser();
+      if (currentAccount) {
+        setUser({
+          userId: currentAccount.$id,
+          name: currentAccount.name,
+          email: currentAccount.email,
+          imageUrl: currentAccount.imageUrl,
+        });
+        setIsAuthenticated(true);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.log(error);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const { $id, email, name } = await account.get();
-        setUser({ id: $id, email, name });
-      } catch (error) {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    checkAuth();
+    if (
+      localStorage.getItem('cookieFallback') === '[]' ||
+      localStorage.getItem('cookieFallback') === null
+    ) navigate('/sign-in');
+    checkAuthUser();
   }, []);
 
-  const login = async (email, password) => {
-    try {
-      await account.createEmailPasswordSession(email, password);
-      const { $id, email: userEmail } = await account.get();
-      setUser({ id: $id, email: userEmail });
-    } catch (error) {
-      console.error("Error no Login", error);
-    }
-  };
-
-  const signup = async (name, email, password) => {
-    try {
-      await account.create(name, email, password);
-    } catch (error) {
-      console.error("Erro no registro", error);
-    }
-  };
-
-  const logout = async () => {
-    try {
-      await account.deleteSession("current");
-      setUser(null);
-    } catch (error) {
-      console.error("Erro no Logout", error);
-    }
+  const value = {
+    user,
+    setUser,
+    isLoading,
+    isAuthenticated,
+    setIsAuthenticated,
+    checkAuthUser,
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useUserContext = () => useContext(AuthContext);

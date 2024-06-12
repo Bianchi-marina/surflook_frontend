@@ -3,16 +3,16 @@ import RootLayout from "./_root/RootLayout";
 import { Home, Profile, Location, Weather } from "./_root/pages/index";
 import Signin from "./_auth/Sign-in/Signin";
 import Signup from "./_auth/Sign-up/Signup";
-import { useAuth } from "./_auth/AuthContext";
+import { useUserContext } from "./_auth/AuthContext";
 import Loader from "./components/Loader/Loader"
 
 import "./globals.css";
 
 function App() {
-  const { user, loading } = useAuth();
+  const { user, isLoading } = useUserContext();
 
 
-  if (loading) {
+  if (isLoading) {
     return <Loader /> 
   }
   

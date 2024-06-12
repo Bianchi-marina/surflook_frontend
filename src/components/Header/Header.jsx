@@ -3,9 +3,11 @@ import logo from "../../assets/light/logo.png";
 import moon from "../../assets/light/moon.png";
 import sun from "../../assets/light/sun.png";
 import logout from "../../assets/light/logout.png";
-import user from "../../assets/light/profile.png";
+import { useUserContext } from "../../_auth/AuthContext"
+
 
 const Header = ( {onConfirm}) => {
+  const { user } = useUserContext()
 
   function toggleTheme() {
     const html = document.querySelector("html");
@@ -27,10 +29,10 @@ const Header = ( {onConfirm}) => {
   return (
     <header className="header">
       <div className="header-left">
-        <img src={user} alt="User Avatar" className="user-avatar" />
+        <img src={user.imageUrl} alt="User Avatar" className="user-avatar" />
         <div className="user-info">
           <p className="user-title">Aloha,</p>
-          <h2>Username</h2>
+          <h2>{user.name}</h2>
         </div>
       </div>
 

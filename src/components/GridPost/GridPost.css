@@ -13,9 +13,19 @@
   overflow: hidden;
 }
 
+.post-creator {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .post-media {
   position: relative;
   background-color: black;
+}
+
+.time-ago {
+  margin-bottom: 0;
+  color: #00070E;
 }
 
 .post-image {
@@ -65,8 +75,21 @@
   height: 24px; 
 }
 
+.post-infos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
 .post-content {
   padding: 16px;
+}
+
+.creator{
+  color: #00070E;
+  font-weight: bold;
+  margin-bottom: 3px;
 }
 
 .username {

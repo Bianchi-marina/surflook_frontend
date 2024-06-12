@@ -6,55 +6,55 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import PopupCreatePost from "../components/PopupCreatePost/PopupCreatePost";
 import PopupLogout from "../components/PopupLogout/PopupLogout";
-
+import { INITIAL_USER, useUserContext } from "../_auth/AuthContext";
+import { signOutAccount } from "../api/api";
 
 import { Outlet } from "react-router-dom";
-import { account } from "../api/appwrite";
+import { PostsProvider } from "./PostsContext";
 
 const RootLayout = () => {
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+  const { setUser, setIsAuthenticated } = useUserContext();
   const [isCreatePostOpen, setCreatePostOpen] = useState(false);
-  const handleCreatePost = (postData) => {
-    console.log("Post created:", postData);
-  };
-
   const [isLogoutOpen, setLogoutOpen] = useState(false);
-  const handleLogout = async () => {
+
+  const handleLogout = async (e) => {
     try {
-      await account.deleteSession('current');
-      navigate('./sign-in')
+      e.preventDefault();
+      signOutAccount();
+      setIsAuthenticated(false);
+      setUser(INITIAL_USER);
+      navigate("/sign-in");
     } catch (error) {
       console.log(error);
     }
   };
- 
 
   return (
+    <PostsProvider>
     <div className="root-layout">
       <PopupCreatePost
         isOpen={isCreatePostOpen}
         onClose={() => setCreatePostOpen(false)}
-        onCreatePost={handleCreatePost}
       />
 
-      <PopupLogout 
+      <PopupLogout
         isOpen={isLogoutOpen}
         onClose={() => setLogoutOpen(false)}
         onConfirm={handleLogout}
-        />
-
+      />
 
       <Header className="header" onConfirm={() => setLogoutOpen(true)} />
 
       <Navbar className="navbar" onCreatePost={() => setCreatePostOpen(true)} />
-
-      <section>
-        <Outlet className="main" />
-      </section>
-
+   
+        <section>
+          <Outlet className="main" />
+        </section>
+      
       <Footer className="footer" />
     </div>
+    </PostsProvider>
   );
 };
 

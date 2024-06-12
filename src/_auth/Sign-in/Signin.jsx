@@ -1,21 +1,26 @@
 import styles from "./Signin.module.css";
 import Background from "../../assets/_auth/banner.png";
 import Logo from "../../assets/_auth/logo.png";
-import { Link,  useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 
 import { useState } from "react";
-import { useAuth } from "../AuthContext";
+import { useNavigate } from 'react-router-dom';
+import { signInAccount } from '../../api/api';
+import { useUserContext } from '../AuthContext';
 
 const Signin = () => {
-  const [email, setEmail] =useState('')
-  const [password, setPassword] =useState('');
-  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { checkAuthUser } = useUserContext();
 
-  const handleLogin = async (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
-    await login(email, password)
-    navigate('/')
+    const response = await signInAccount(email, password);
+    if (response) {
+      await checkAuthUser();
+      navigate('/');
+    }
   };
 
   return (
@@ -32,18 +37,18 @@ const Signin = () => {
                 Será que hoje está valendo a queda?
               </p>
             </div>
-            <form className={styles.form} onSubmit={handleLogin}>
+            <form className={styles.form} onSubmit={handleSignIn}>
               <input
                 type="email"
                 placeholder="E-mail"
                 value={email}
-                onChange={(e)=> setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 type="password"
                 placeholder="Senha"
                 value={password}
-                onChange={(e)=> setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button className={styles.buttonEnviar} type="submit">
                 Entrar
