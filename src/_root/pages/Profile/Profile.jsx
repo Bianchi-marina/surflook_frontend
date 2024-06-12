@@ -1,16 +1,38 @@
 import "./Profile.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GridPost from "../../../components/GridPost/GridPost";
 import edit from "../../../assets/light/edit.png";
 import PopupEditProfile from "../../../components/PopupEditProfile/PopupEditProfile";
-import PopupDeletePost from "../../../components/PopupDeletePost/PopupDeletePost";
+// import PopupDeletePost from "../../../components/PopupDeletePost/PopupDeletePost";
 import { useUserContext } from "../../../_auth/AuthContext";
+import  { getUserPosts } from "../../../api/api";
+import overlay from "../../../assets/light/overlay.png";
+import trashIcon from "../../../assets/light/trash.png";
 
 const Profile = () => {
-  const [isEditProfileOpen, setEditProfileOpen] = useState(false);
-  const [isDeletePostOpen, setDeletePostOpen] = useState(false);
-
   const { user } = useUserContext();
+  const [isEditProfileOpen, setEditProfileOpen] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+
+
+  useEffect(()=> {
+      const userPosts = async () => {
+        try {
+          const posts = await getUserPosts(user.userId);
+          setPosts(posts);
+        } catch (error) {
+          console.error('Não foi possivel pegar os posts desse user:', error);
+        }
+      } 
+      if (user) {
+        userPosts();
+      }
+  },[user]);
+
+  const deleteIcon = (
+    <img src={trashIcon} alt="Delete" className="post-icon" />
+  );
 
   return (
     <>
@@ -18,10 +40,11 @@ const Profile = () => {
         isOpen={isEditProfileOpen}
         onClose={() => setEditProfileOpen(false)}
       />
-      <PopupDeletePost
+      {/* <PopupDeletePost
        isOpen={isDeletePostOpen}
        onClose={() => setDeletePostOpen(false)}
-        />
+       onConfirm={() => confirmDeletePost}
+        /> */}
 
       <section className="profile-container">
         <div className="profile-content">
@@ -37,7 +60,7 @@ const Profile = () => {
               className="edit-profile-button"
               onClick={() => setEditProfileOpen(true)}
             >
-              <img src={edit} alt="" className="" />
+              <img src={edit} alt="Botão de editar" className="" />
             </button>
           </div>
 
@@ -45,7 +68,13 @@ const Profile = () => {
             <h2>Seus Checks</h2>
             <p>Aqui você pode visualizar, editar e excluir seus checks</p>
           </div>
-          <GridPost  onConfirm={() => setDeletePostOpen(true)}/>
+          {posts.length > 0 ? (
+            <GridPost  posts={posts} deleteIcon={deleteIcon} />
+          ) : (
+            <div className="overlay-container">
+            <img src={overlay} alt="overlay logo" className="overlay-logo" />
+          </div>
+          )}
         </div>
       </section>
     </>

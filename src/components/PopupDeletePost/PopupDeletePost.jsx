@@ -5,7 +5,7 @@ const PopupDeletePost = ({ isOpen, onClose, onConfirm }) => {
       <PopupConfirmation
         isOpen={isOpen}
         onClose={onClose}
-        onConfirm={onConfirm}
+        onClick={onConfirm}
         title="Excluir Check"
         subtitle="Tem certeza de que deseja excluir este check?"
       />

@@ -47,7 +47,7 @@ const Location = () => {
           </button>
         </div>
         {loading ? (
-          <div>Loading...</div>
+          <div>Buscando checks...</div>
         ) : (
           <GridPost posts={filteredPosts} />
         )}

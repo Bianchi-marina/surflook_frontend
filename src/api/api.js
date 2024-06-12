@@ -193,30 +193,35 @@ export async function searchPostsByLocation(cidade, praia) {
   }
 }
 
-
-export async function deleteFile(fileId) {
+export async function getUserPosts(creator) {
+  if (!creator) return;
   try {
-    await storage.deleteFile(appwriteConfig.storageId, fileId);
-    return { status: "ok" };
+    const post = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.equal("creator", creator), Query.orderDesc("$createdAt")]
+    );
+    if (!post) throw Error;
+    return post.documents; 
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function deleteAllPosts() {
+
+export async function deletePost(postId, mediaUrl) {
+  
   try {
-    const response = await databases.deleteCollectionDocuments(
-      appwriteConfig.postCollectionId
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId
     );
-
-    if (response.status === "error") {
-      throw new Error("Failed to delete all posts");
-    }
-
-    return response;
+    if (!statusCode) throw Error;
+    await storage.deleteFile(appwriteConfig.storageId, mediaUrl);
+    return { status: "Ok" };
   } catch (error) {
-    console.error("Error deleting all posts:", error);
-    throw error;
+    console.log(error);
   }
 }
 
@@ -247,79 +252,6 @@ export async function getPostById(postId) {
   }
 }
 
-export async function updatePost(post) {
-  const hasFileToUpdate = post.file.length > 0;
-  try {
-    let image = { imageUrl: post.imageUrl, imageId: post.imageId };
-    if (hasFileToUpdate) {
-      const uploadedFile = await uploadFile(post.file[0]);
-      if (!uploadedFile) throw Error;
-      const fileUrl = getFilePreview(uploadedFile.$id);
-      if (!fileUrl) {
-        await deleteFile(uploadedFile.$id);
-        throw Error;
-      }
-      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
-    }
-    const tags = post.tags?.replace(/ /g, "").split(",") || [];
-    const updatedPost = await databases.updateDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.postCollectionId,
-      post.postId,
-      {
-        caption: post.caption,
-        imageUrl: image.imageUrl,
-        imageId: image.imageId,
-        location: post.location,
-        tags: tags,
-      }
-    );
-    if (!updatedPost) {
-      if (hasFileToUpdate) {
-        await deleteFile(image.imageId);
-      }
-      throw Error;
-    }
-    if (hasFileToUpdate) {
-      await deleteFile(post.imageId);
-    }
-    return updatedPost;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function deletePost(postId, imageId) {
-  if (!postId || !imageId) return;
-  try {
-    const statusCode = await databases.deleteDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.postCollectionId,
-      postId
-    );
-    if (!statusCode) throw Error;
-    await deleteFile(imageId);
-    return { status: "Ok" };
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function getUserPosts(userId) {
-  if (!userId) return;
-  try {
-    const post = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.postCollectionId,
-      [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
-    );
-    if (!post) throw Error;
-    return post;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export async function getUserById(userId) {
   try {
     const user = await databases.getDocument(
@@ -329,46 +261,6 @@ export async function getUserById(userId) {
     );
     if (!user) throw Error;
     return user;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function updateUser(user) {
-  const hasFileToUpdate = user.file.length > 0;
-  try {
-    let image = { imageUrl: user.imageUrl, imageId: user.imageId };
-    if (hasFileToUpdate) {
-      const uploadedFile = await uploadFile(user.file[0]);
-      if (!uploadedFile) throw Error;
-      const fileUrl = getFilePreview(uploadedFile.$id);
-      if (!fileUrl) {
-        await deleteFile(uploadedFile.$id);
-        throw Error;
-      }
-      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
-    }
-    const updatedUser = await databases.updateDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
-      user.userId,
-      {
-        name: user.name,
-        bio: user.bio,
-        imageUrl: image.imageUrl,
-        imageId: image.imageId,
-      }
-    );
-    if (!updatedUser) {
-      if (hasFileToUpdate) {
-        await deleteFile(image.imageId);
-      }
-      throw Error;
-    }
-    if (user.imageId && hasFileToUpdate) {
-      await deleteFile(user.imageId);
-    }
-    return updatedUser;
   } catch (error) {
     console.log(error);
   }

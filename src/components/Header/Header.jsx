@@ -1,31 +1,20 @@
 import "./Header.css";
+import { useEffect } from 'react';
 import logo from "../../assets/light/logo.png";
 import moon from "../../assets/light/moon.png";
 import sun from "../../assets/light/sun.png";
 import logout from "../../assets/light/logout.png";
 import { useUserContext } from "../../_auth/AuthContext"
+import { applyStoredTheme, toggleTheme } from '../../api/theme';
 
 
 const Header = ( {onConfirm}) => {
   const { user } = useUserContext()
 
-  function toggleTheme() {
-    const html = document.querySelector("html");
-    const images = document.querySelectorAll("img");
-  
-    if (html.getAttribute("data-theme") === "light") {
-      html.setAttribute("data-theme", "dark");
-      images.forEach(img => {
-        img.src = img.src.replace("/light/", "/dark/"); 
-      });
-    } else {
-      html.setAttribute("data-theme", "light");
-      images.forEach(img => {
-        img.src = img.src.replace("/dark/", "/light/"); 
-      });
-    }
-  }
-  
+  useEffect(() => {
+    applyStoredTheme();
+  }, []);
+
   return (
     <header className="header">
       <div className="header-left">

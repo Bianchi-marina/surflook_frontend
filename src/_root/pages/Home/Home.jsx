@@ -1,12 +1,11 @@
 import "./Home.css";
 import overlay from "../../../assets/light/overlay.png";
 import { useEffect, useState } from "react";
-import { deleteAllPosts } from "../../../api/api";
 import GridPost from "../../../components/GridPost/GridPost";
 import { getRecentPosts } from "../../../api/api";
 
 const Home = () => {
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -20,19 +19,9 @@ const Home = () => {
 
     fetchPosts();
 
-    const interval = setInterval(() => {
-      const now = new Date();
-      const midnight = new Date(now);
-      midnight.setHours(24, 0, 0, 0);
-
-      if (now.getTime() === midnight.getTime()) {
-        deleteAllPosts();
-      }
-    }, 60000);
-    console.log( "POSTS",posts)
-
-    return () => clearInterval(interval);
   }, []);
+
+  console.log(posts)
 
   return (
     <section className="home-container">

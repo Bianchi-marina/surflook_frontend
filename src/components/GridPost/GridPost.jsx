@@ -1,14 +1,18 @@
 import "./GridPost.css";
-import trashIcon from "../../assets/light/trash.png";
 import { useUserContext } from "../../_auth/AuthContext";
 import { formatTimeSince } from "../../api/formatTimeSince";
+import { deletePost } from "../../api/api"
 
-const GridPost = ({ posts }) => {
+const GridPost = ({ posts, deleteIcon }) => {
   const { user } = useUserContext();
+
+  const handleDeleteClick = (postId, mediaUrl) => {
+    deletePost(postId, mediaUrl);
+  };
 
   return (
     <div className="grid-post">
-      {posts?.map((post) => (
+      {posts.map((post) => (
         <div key={post.$id} className="post">
           <div className="post-media">
             {post.mediaUrl ? (
@@ -24,9 +28,9 @@ const GridPost = ({ posts }) => {
               <div className="no-media">No media available</div>
             )}
             <div className="post-icons">
-              {user.userId === post.creator && (
-                <button className="post-icon">
-                  <img src={trashIcon} alt="Trash Icon" />
+            {user.userId === post.creator.$id && (
+                <button onClick={() => handleDeleteClick(post.$id, post.mediaUrl)} className="post-icon">
+                  {deleteIcon}
                 </button>
               )}
             </div>
