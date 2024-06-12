@@ -28,8 +28,6 @@
 }
 
 .overlay-logo {
-  width: 206px;
-  height: 105.01px;
   opacity: 30%;
 }
 
@@ -41,11 +39,5 @@
 
   .intro-text p {
     font-size: 14px;
-  }
-
-  .overlay-logo {
-    width: 206px;
-    height: 105.01px;
-    opacity: 30%;
   }
 }

@@ -27,7 +27,7 @@ const FileUploader = ({ onFileSelect }) => {
           <div {...getRootProps()} className="dropzone">
               <input {...getInputProps()} />
               {!filePreview ? (
-                  <p>Adicione aqui</p>
+                  <p>Adicione aqui o seu check</p>
               ) : (
                   file.type.startsWith('image/') ? (
                       <img src={filePreview} alt="Preview" className="preview" />

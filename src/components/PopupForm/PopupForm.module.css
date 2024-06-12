@@ -32,6 +32,10 @@ align-items: center;
 color: #00070e;
 }
 
+.loadingIndicator {
+  color: green;
+}
+
 
 .closeButton {
   position: absolute;

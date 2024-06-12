@@ -57,7 +57,6 @@ const PopupCreatePost = ({ isOpen, onClose }) => {
       subtitle="Compartilhe as condições atuais do mar :)"
     >
       <FileUploader onFileSelect={setMediaUrl} mediaUrl={mediaUrl} />
-      <div className="inputs-create-post">
       <label>
         <textarea
           className="description"
@@ -83,7 +82,7 @@ const PopupCreatePost = ({ isOpen, onClose }) => {
           placeholder="Praia"
         />
       </label>
-      </div>
+   
      
     </PopupForm>
   );

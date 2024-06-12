@@ -41,8 +41,8 @@ const GridPost = ({ posts, deleteIcon }) => {
               <div className="post-icons">
               {user.userId === post.creator.$id && (
                 <div>
-                  {loading ? ( 
-                    <div>Loading...</div> 
+                  {loading === post.$id ? ( 
+                    <div>Deletando este check...</div> 
                   ) : (
                     <button onClick={() => handleDeleteClick(post.$id, post.mediaUrl)} className="post-icon">
                       {deleteIcon}

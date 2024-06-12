@@ -27,9 +27,9 @@ const PopupForm = ({ isOpen, onClose, onSubmit, title, subtitle, children }) => 
         <form className={styles.popupForm} onSubmit={handleSubmit}>
           {children}
           {loading ? ( 
-            <div className={styles.loadingIndicator}>Compartilhando...</div>
+            <div className={styles.loadingIndicator}>Enviando seu check...</div>
             ) : (
-              <button type="submit">Submit</button>
+              <button type="submit">Salvar</button>
             )}
         </form>
         </div>
