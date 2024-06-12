@@ -2,26 +2,48 @@ import styles from "./Signin.module.css";
 import Background from "../../assets/_auth/banner.png";
 import Logo from "../../assets/_auth/logo.png";
 import { Link} from "react-router-dom";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { signInAccount } from '../../api/api';
 import { useUserContext } from '../AuthContext';
+import { signinFormSchema } from '../../validation/index';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
   const navigate = useNavigate();
   const { checkAuthUser } = useUserContext();
 
+ 
+  useEffect(() => {
+    if (touched.email || touched.password) {
+      const result = signinFormSchema.safeParse({ email, password });
+      if (!result.success) {
+        setErrors(result.error.formErrors.fieldErrors);
+      } else {
+        setErrors({});
+      }
+    }
+  }, [email, password, touched]);
+
   const handleSignIn = async (e) => {
     e.preventDefault();
+    setTouched({ email: true, password: true });
+    const result = signinFormSchema.safeParse({ email, password });
+    if (!result.success) {
+      setErrors(result.error.formErrors.fieldErrors);
+      return;
+    }
+
     const response = await signInAccount(email, password);
     if (response) {
       await checkAuthUser();
       navigate('/');
     }
   };
+
 
   return (
     <main className={styles.main}>
@@ -38,18 +60,28 @@ const Signin = () => {
               </p>
             </div>
             <form className={styles.form} onSubmit={handleSignIn}>
-              <input
-                type="email"
-                placeholder="E-mail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            <div className={styles.flexInput}>
+                <input
+                  className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
+                  type="email"
+                  placeholder="E-mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+              
+                />
+               {touched.email && errors.email && <span className={styles.error}>{errors.email}</span>}
+              </div>
+              <div className={styles.flexInput}>
+                <input
+                  className={`${styles.input} ${errors.password ? styles.inputError : ''}`}
+                  type="password"
+                  placeholder="Senha"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                 
+                />
+                {touched.password && errors.password && <span className={styles.error}>{errors.password}</span>}
+              </div>
               <button className={styles.buttonEnviar} type="submit">
                 Entrar
               </button>

@@ -1,8 +1,19 @@
 import closeIcon from "../../assets/light/close.png";
 import styles from "./PopupForm.module.css";
+import { useState } from "react"; 
 
 const PopupForm = ({ isOpen, onClose, onSubmit, title, subtitle, children }) => {
+  const [loading, setLoading] = useState(false);
   if (!isOpen) return null;
+
+  const handleSubmit = async (event) => {
+    setLoading(true); 
+    try {
+      await onSubmit(event);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={styles.popupOverlay}>
@@ -13,9 +24,13 @@ const PopupForm = ({ isOpen, onClose, onSubmit, title, subtitle, children }) => 
         <div className={styles.popupInfos}>
         <h1>{title}</h1>
         <p>{subtitle}</p>
-        <form className={styles.popupForm} onSubmit={onSubmit}>
+        <form className={styles.popupForm} onSubmit={handleSubmit}>
           {children}
-          <button type="submit">Submit</button>
+          {loading ? ( 
+            <div className={styles.loadingIndicator}>Compartilhando...</div>
+            ) : (
+              <button type="submit">Submit</button>
+            )}
         </form>
         </div>
        

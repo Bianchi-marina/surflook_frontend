@@ -66,7 +66,7 @@ const Profile = () => {
 
           <div className="intro-text">
             <h2>Seus Checks</h2>
-            <p>Aqui você pode visualizar, editar e excluir seus checks</p>
+            <p>Aqui você pode visualizar e excluir seus checks</p>
           </div>
           {posts.length > 0 ? (
             <GridPost  posts={posts} deleteIcon={deleteIcon} />

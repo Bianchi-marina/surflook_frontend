@@ -2,6 +2,7 @@ import { useState } from "react";
 import PopupForm from "../PopupForm/PopupForm";
 import { createPost } from "../../api/api";
 import FileUploader from "../FileUploader/FileUploader";
+import './PopupCreatePost.css'
 
 import { useUserContext } from "../../_auth/AuthContext";
 
@@ -41,6 +42,7 @@ const PopupCreatePost = ({ isOpen, onClose }) => {
       console.log("Post created successfully:", response);
       console.log(newPost);
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("Error creating post:", error);
     }
@@ -55,12 +57,14 @@ const PopupCreatePost = ({ isOpen, onClose }) => {
       subtitle="Compartilhe as condições atuais do mar :)"
     >
       <FileUploader onFileSelect={setMediaUrl} mediaUrl={mediaUrl} />
+      <div className="inputs-create-post">
       <label>
         <textarea
+          className="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-          placeholder="Descrição"
+          placeholder="Descreva aqui como está o mar..."
         />
       </label>
       <label>
@@ -79,6 +83,8 @@ const PopupCreatePost = ({ isOpen, onClose }) => {
           placeholder="Praia"
         />
       </label>
+      </div>
+     
     </PopupForm>
   );
 };

@@ -2,7 +2,7 @@ import "./Location.css";
 import { useState } from "react";
 import GridPost from "../../../components/GridPost/GridPost";
 import search from "../../../assets/dark/search.png";
-import{ searchPostsByLocation }  from "../../../api/api";
+import { searchPostsByLocation } from "../../../api/api";
 
 const Location = () => {
   const [cidade, setCidade] = useState("");
@@ -12,10 +12,11 @@ const Location = () => {
 
   const handleSearch = async () => {
     setLoading(true);
+
     try {
       const posts = await searchPostsByLocation(cidade, praia);
       setFilteredPosts(posts);
-      console.log("posts", posts)
+      console.log("posts", posts);
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
@@ -46,6 +47,7 @@ const Location = () => {
             <img src={search} alt="Search Icon" />
           </button>
         </div>
+
         {loading ? (
           <div>Buscando checks...</div>
         ) : (

@@ -1,0 +1,11 @@
+.inputs-create-post {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.description{
+    font-family: Poppins;
+    width: 100%;
+}

@@ -1,13 +1,24 @@
 import "./GridPost.css";
+import { useState } from "react";
 import { useUserContext } from "../../_auth/AuthContext";
 import { formatTimeSince } from "../../api/formatTimeSince";
 import { deletePost } from "../../api/api"
 
 const GridPost = ({ posts, deleteIcon }) => {
   const { user } = useUserContext();
+  const [loading, setLoading] = useState(false); 
 
-  const handleDeleteClick = (postId, mediaUrl) => {
-    deletePost(postId, mediaUrl);
+
+  const handleDeleteClick = async (postId, mediaUrl) => {
+    setLoading(true); 
+    try {
+      await deletePost(postId, mediaUrl);
+      window.location.reload(); 
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    } finally {
+      setLoading(false); 
+    }
   };
 
   return (
@@ -27,11 +38,17 @@ const GridPost = ({ posts, deleteIcon }) => {
             ) : (
               <div className="no-media">No media available</div>
             )}
-            <div className="post-icons">
-            {user.userId === post.creator.$id && (
-                <button onClick={() => handleDeleteClick(post.$id, post.mediaUrl)} className="post-icon">
-                  {deleteIcon}
-                </button>
+              <div className="post-icons">
+              {user.userId === post.creator.$id && (
+                <div>
+                  {loading ? ( 
+                    <div>Loading...</div> 
+                  ) : (
+                    <button onClick={() => handleDeleteClick(post.$id, post.mediaUrl)} className="post-icon">
+                      {deleteIcon}
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </div>
