@@ -31,7 +31,7 @@ const Home = () => {
           </p>
           <p>*Os posts são deletados automaticamente ao término do dia</p>
         </div>
-        {posts == [] ? (
+        {posts ? (
           <GridPost posts={posts} />
         ) : (
           <div className="overlay-container">

@@ -198,7 +198,7 @@ export async function getUserPosts(creator) {
   }
 }
 
-export async function deletePost(postId, mediaUrl) {
+export async function deletePost(postId, mediaType) {
   
   try {
     const statusCode = await databases.deleteDocument(
@@ -207,7 +207,7 @@ export async function deletePost(postId, mediaUrl) {
       postId
     );
     if (!statusCode) throw Error;
-    await storage.deleteFile(appwriteConfig.storageId, mediaUrl);
+    await storage.deleteFile(appwriteConfig.storageId, mediaType);
     return { status: "Ok" };
   } catch (error) {
     console.log(error);

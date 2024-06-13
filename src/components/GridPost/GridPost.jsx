@@ -8,10 +8,10 @@ const GridPost = ({ posts, deleteIcon }) => {
   const { user } = useUserContext();
   const [loading, setLoading] = useState(false);
 
-  const handleDeleteClick = async (postId, mediaUrl) => {
+  const handleDeleteClick = async (postId, mediaType) => {
     setLoading(true);
     try {
-      await deletePost(postId, mediaUrl);
+      await deletePost(postId, mediaType);
       window.location.reload();
     } catch (error) {
       console.error("Error deleting post:", error);
@@ -49,7 +49,7 @@ const GridPost = ({ posts, deleteIcon }) => {
                     <div>Deletando este check...</div>
                   ) : (
                     <button
-                      onClick={() => handleDeleteClick(post.$id, post.mediaUrl)}
+                      onClick={() => handleDeleteClick(post.$id, post.mediaType)}
                       className="post-icon"
                     >
                       {deleteIcon}
