@@ -110,6 +110,9 @@ export const createPost = async (post) => {
     if (post.praia) {
       tags.push(post.praia);
     }
+    if (post.estado) {
+      tags.push(post.estado);
+    }
 
     const createdPost = await databases.createDocument(
       appwriteConfig.databaseId,
@@ -120,7 +123,7 @@ export const createPost = async (post) => {
         creatorName: post.creatorName,
         description: post.description,
         mediaUrl: mediaUrl,
-        mediaType: post.mediaType,  // Incluindo o tipo de mídia no documento
+        mediaType: post.mediaType, 
         created_at: new Date().toISOString(),
         tags: tags
       }
@@ -132,36 +135,6 @@ export const createPost = async (post) => {
     throw error;
   }
 };
-
-export async function uploadFile(file) {
-  try {
-    const uploadedFile = await storage.createFile(
-      appwriteConfig.storageId,
-      ID.unique(),
-      file
-    );
-    return uploadedFile;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// export function getFilePreview(fileId) {
-//   try {
-//     const fileUrl = storage.getFilePreview(
-//       appwriteConfig.storageId,
-//       fileId,
-//       2000,
-//       2000,
-//       "top",
-//       100
-//     );
-//     if (!fileUrl) throw Error;
-//     return fileUrl;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
 
 export async function searchPostsByLocation(cidade, praia) {
   try {
