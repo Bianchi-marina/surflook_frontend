@@ -3,9 +3,8 @@ import { useState } from "react";
 import GridPost from "../../../components/GridPost/GridPost";
 import search from "../../../assets/dark/search.png";
 import { searchPostsByLocation } from "../../../api/api";
-import { OverlayLogo } from '../../../components/OverlayLogo/OverlayLogo'
+import overlay from "../../../assets/light/overlay.png";
 import { validateLocation } from "../../../api/googleMaps";
-
 
 const Location = () => {
   const [cidade, setCidade] = useState("");
@@ -15,12 +14,10 @@ const Location = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   const validateInputs = async () => {
-    const validationResult = await validateLocation(cidade, estado); 
+    const validationResult = await validateLocation(cidade, estado);
 
     if (!validationResult.isValid) {
-   
       setError("Cidade e/ou estado inválidos");
       return false;
     }
@@ -48,7 +45,7 @@ const Location = () => {
         setFilteredPosts(response);
       }
     } catch (error) {
-      setError('Ocorreu um erro ao pesquisar');
+      setError("Ocorreu um erro ao pesquisar");
       console.error("Error fetching posts:", error);
     } finally {
       setLoading(false);
@@ -69,7 +66,7 @@ const Location = () => {
             onChange={(e) => setCidade(e.target.value)}
             required
           />
-            <input
+          <input
             type="text"
             placeholder="Estado..."
             value={estado}
@@ -81,7 +78,6 @@ const Location = () => {
             placeholder="Praia..."
             value={praia}
             onChange={(e) => setPraia(e.target.value)}
-         
           />
           <button onClick={handleSearch}>
             <img src={search} alt="Search Icon" />
@@ -91,7 +87,9 @@ const Location = () => {
         {loading ? (
           <div>Buscando checks...</div>
         ) : filteredPosts.length === 0 ? (
-          <OverlayLogo />
+          <div className="overlay-container">
+            <img src={overlay} alt="overlay logo" className="overlay-logo" />
+          </div>
         ) : (
           <GridPost posts={filteredPosts} />
         )}

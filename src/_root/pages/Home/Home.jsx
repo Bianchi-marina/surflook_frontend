@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import GridPost from "../../../components/GridPost/GridPost";
 import { getRecentPosts } from "../../../api/api";
-import {OverlayLogo} from "../../../components/OverlayLogo/OverlayLogo"
+import overlay from "../../../assets/light/overlay.png";
 import "./Home.css";
 
 const Home = () => {
@@ -18,10 +18,9 @@ const Home = () => {
     };
 
     fetchPosts();
-
   }, []);
 
-  console.log(posts)
+  console.log(posts);
 
   return (
     <section className="home-container">
@@ -35,7 +34,9 @@ const Home = () => {
         {posts == [] ? (
           <GridPost posts={posts} />
         ) : (
-          <OverlayLogo />
+          <div className="overlay-container">
+            <img src={overlay} alt="overlay logo" className="overlay-logo" />
+          </div>
         )}
       </div>
     </section>

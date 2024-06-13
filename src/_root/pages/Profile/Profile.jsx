@@ -6,7 +6,7 @@ import GridPost from "../../../components/GridPost/GridPost";
 // import PopupDeletePost from "../../../components/PopupDeletePost/PopupDeletePost";
 import { useUserContext } from "../../../_auth/AuthContext";
 import { getUserPosts } from "../../../api/api";
-import { OverlayLogo } from '../../../components/OverlayLogo/OverlayLogo'
+import overlay from "../../../assets/light/overlay.png";
 import trashIcon from "../../../assets/light/trash.png";
 
 const Profile = () => {
@@ -60,8 +60,8 @@ const Profile = () => {
                 <h2>{user.name}</h2>
               </div>
             </div> */}
-            {/* botão para abrir o popup do edit profile */}
-            {/* <button
+          {/* botão para abrir o popup do edit profile */}
+          {/* <button
               className="edit-profile-button"
               onClick={() => setEditProfileOpen(true)}
             >
@@ -76,7 +76,9 @@ const Profile = () => {
           {posts.length > 0 ? (
             <GridPost posts={posts} deleteIcon={deleteIcon} />
           ) : (
-            <OverlayLogo />
+            <div className="overlay-container">
+              <img src={overlay} alt="overlay logo" className="overlay-logo" />
+            </div>
           )}
         </div>
       </section>
