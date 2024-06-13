@@ -11,6 +11,8 @@ const Signup = () => {
   const [user, setUser] = useState({ name: '', email: '', password: '' });
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({ name: false, email: false, password: false });
+  const [signupError, setSignupError] = useState('');
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -25,9 +27,6 @@ const Signup = () => {
     }
   }, [user, touched]);
 
-  const handleBlur = (field) => () => {
-    setTouched((prev) => ({ ...prev, [field]: true }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +38,9 @@ const Signup = () => {
     }
 
     const response = await createUserAccount(user);
-    if (response) {
+    if (response.error) {
+      setSignupError(response.error);
+    } else {
       console.log(response);
       navigate('/sign-in');
     }
@@ -67,7 +68,6 @@ const Signup = () => {
                   placeholder="Nome de usuário"
                   value={user.name}
                   onChange={(e) => setUser({ ...user, name: e.target.value })}
-                  onBlur={handleBlur('name')}
                 />
                 {touched.name && errors.name && <span className={styles.error}>{errors.name}</span>}
               </div>
@@ -78,7 +78,7 @@ const Signup = () => {
                   placeholder="E-mail"
                   value={user.email}
                   onChange={(e) => setUser({ ...user, email: e.target.value })}
-                  onBlur={handleBlur('email')}
+                  
                 />
                 {touched.email && errors.email && <span className={styles.error}>{errors.email}</span>}
               </div>
@@ -89,10 +89,11 @@ const Signup = () => {
                   placeholder="Senha"
                   value={user.password}
                   onChange={(e) => setUser({ ...user, password: e.target.value })}
-                  onBlur={handleBlur('password')}
+                  
                 />
                 {touched.password && errors.password && <span className={styles.error}>{errors.password}</span>}
               </div>
+              {signupError && <div className={styles.error}>{signupError}</div>}
               <button className={styles.buttonEnviar} type="submit">
                 Cadastrar
               </button>

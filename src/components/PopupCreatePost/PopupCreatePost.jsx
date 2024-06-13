@@ -33,6 +33,7 @@ const PopupCreatePost = ({ isOpen, onClose }) => {
       cidade,
       praia,
       mediaUrl: mediaUrl,
+      mediaType: mediaUrl.type.split('/')[1],
       tags: tags,
     };
     console.log("AQUI É A MEDIA URL>>>>>", mediaUrl);
@@ -40,7 +41,8 @@ const PopupCreatePost = ({ isOpen, onClose }) => {
     try {
       const response = await createPost(newPost);
       console.log("Post created successfully:", response);
-      console.log(newPost);
+      console.log("POST CRIADOO>>", newPost);
+
       onClose();
       window.location.reload();
     } catch (error) {

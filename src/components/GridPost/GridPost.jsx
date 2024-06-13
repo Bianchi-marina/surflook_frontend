@@ -2,24 +2,25 @@ import "./GridPost.css";
 import { useState } from "react";
 import { useUserContext } from "../../_auth/AuthContext";
 import { formatTimeSince } from "../../api/formatTimeSince";
-import { deletePost } from "../../api/api"
+import { deletePost } from "../../api/api";
 
 const GridPost = ({ posts, deleteIcon }) => {
   const { user } = useUserContext();
-  const [loading, setLoading] = useState(false); 
-
+  const [loading, setLoading] = useState(false);
 
   const handleDeleteClick = async (postId, mediaUrl) => {
-    setLoading(true); 
+    setLoading(true);
     try {
       await deletePost(postId, mediaUrl);
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting post:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
+
+  console.log("posts", posts);
 
   return (
     <div className="grid-post">
@@ -27,24 +28,30 @@ const GridPost = ({ posts, deleteIcon }) => {
         <div key={post.$id} className="post">
           <div className="post-media">
             {post.mediaUrl ? (
-              post.mediaType === "video" ? (
-                <video autoPlay loop muted>
-                  <source src={post.mediaUrl} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+              post.mediaType === "mp4" || post.mediaType === "quicktime" ? (
+                <video
+                  loop
+                  controls
+                  className="post-image"
+                  src={post.mediaUrl}
+                  type={`video/${post.mediaType}`}
+                />
               ) : (
                 <img src={post.mediaUrl} alt="Post" className="post-image" />
               )
             ) : (
-              <div className="no-media">No media available</div>
+              <div className="no-media">Nenhuma mídia</div>
             )}
-              <div className="post-icons">
+            <div className="post-icons">
               {user.userId === post.creator.$id && (
                 <div>
-                  {loading === post.$id ? ( 
-                    <div>Deletando este check...</div> 
+                  {loading === post.$id ? (
+                    <div>Deletando este check...</div>
                   ) : (
-                    <button onClick={() => handleDeleteClick(post.$id, post.mediaUrl)} className="post-icon">
+                    <button
+                      onClick={() => handleDeleteClick(post.$id, post.mediaUrl)}
+                      className="post-icon"
+                    >
                       {deleteIcon}
                     </button>
                   )}
@@ -55,8 +62,12 @@ const GridPost = ({ posts, deleteIcon }) => {
           <div className="post-content">
             <div className="post-infos">
               <div className="post-creator">
-              <img src={post.creator.imageUrl} alt="User Avatar" className="user-avatar" />
-              <p className="creator">{post.creatorName}</p>
+                <img
+                  src={post.creator.imageUrl}
+                  alt="User Avatar"
+                  className="user-avatar"
+                />
+                <p className="creator">{post.creatorName}</p>
               </div>
               <p className="time-ago">{formatTimeSince(post.created_at)}</p>
             </div>

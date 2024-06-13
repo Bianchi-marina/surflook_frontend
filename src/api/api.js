@@ -25,8 +25,11 @@ export async function createUserAccount(user) {
     });
     return newUser;
   } catch (error) {
+    if (error.code === 409) {
+      return { error: 'Usuário já existente, faça o Login.' };
+    }
     console.log(error);
-    return error;
+    return { error: 'Ocorreu um erro no cadastro' };
   }
 }
 
@@ -50,7 +53,10 @@ export const signInAccount = async (email, password) => {
     return response;
   } catch (error) {
     console.error("Error signing in:", error);
-    throw error;
+    if (error.code === 401) { 
+      return { error: 'Email ou senha inválido.' };
+    }
+    return { error: 'Ocorreu um erro durante o login' };
   }
 };
 
@@ -59,7 +65,7 @@ export const getCurrentSession = async () => {
     const session = await account.getSession("current");
     return session;
   } catch (error) {
-    console.error("Error getting current session:", error);
+    console.error("Erro ao pegar a sessão atual", error);
     throw error;
   }
 };
@@ -94,10 +100,9 @@ export const createPost = async (post) => {
   const mediaId = ID.unique();
 
   try {
- 
     const uploadedFile = await storage.createFile(appwriteConfig.storageId, mediaId, post.mediaUrl);
-    const mediaUrl = storage.getFilePreview(appwriteConfig.storageId, uploadedFile.$id, 2000, 2000); 
-   
+    const mediaUrl = storage.getFileView(appwriteConfig.storageId, uploadedFile.$id); 
+    
     const tags = [];
     if (post.cidade) {
       tags.push(post.cidade);
@@ -106,16 +111,16 @@ export const createPost = async (post) => {
       tags.push(post.praia);
     }
 
-
     const createdPost = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
-      ID.unique(),
+      mediaId,
       {
         creator: post.creator,
         creatorName: post.creatorName,
         description: post.description,
         mediaUrl: mediaUrl,
+        mediaType: post.mediaType,  // Incluindo o tipo de mídia no documento
         created_at: new Date().toISOString(),
         tags: tags
       }
@@ -141,20 +146,48 @@ export async function uploadFile(file) {
   }
 }
 
-export function getFilePreview(fileId) {
+// export function getFilePreview(fileId) {
+//   try {
+//     const fileUrl = storage.getFilePreview(
+//       appwriteConfig.storageId,
+//       fileId,
+//       2000,
+//       2000,
+//       "top",
+//       100
+//     );
+//     if (!fileUrl) throw Error;
+//     return fileUrl;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+export async function searchPostsByLocation(cidade, praia) {
   try {
-    const fileUrl = storage.getFilePreview(
-      appwriteConfig.storageId,
-      fileId,
-      2000,
-      2000,
-      "top",
-      100
-    );
-    if (!fileUrl) throw Error;
-    return fileUrl;
+    if (!cidade && !praia) {
+      throw { code: 400, message: 'Pelo menos um campo deve ser preenchido' };
+    }
+
+    const allPosts = await getAllPosts();
+
+    const filteredPosts = allPosts.filter(post => {
+      const hasCidade = cidade ? post.tags[0] === cidade : true;
+      const hasPraia = praia ? post.tags[1] === praia : true;
+      return hasCidade && hasPraia;
+    });
+
+    if (filteredPosts.length === 0) {
+      throw { code: 404, message: 'Nenhum post encontrado' };
+    }
+
+    return filteredPosts;
   } catch (error) {
-    console.log(error);
+    console.error("Error searching posts:", error);
+    if (error.code) {
+      return { error: error.message };
+    }
+    return { error: 'Ocorreu um erro ao pesquisar' };
   }
 }
 
@@ -176,23 +209,6 @@ export async function getAllPosts() {
   }
 }
 
-export async function searchPostsByLocation(cidade, praia) {
-  try {
-    const allPosts = await getAllPosts();
-
-    const filteredPosts = allPosts.filter(post => {
-      const hasCidade = cidade ? post.tags.includes(cidade) : true;
-      const hasPraia = praia ? post.tags.includes(praia) : true;
-      return hasCidade && hasPraia;
-    });
-
-    return filteredPosts;
-  } catch (error) {
-    console.error("Error searching posts:", error);
-    throw error;
-  }
-}
-
 export async function getUserPosts(creator) {
   if (!creator) return;
   try {
@@ -207,7 +223,6 @@ export async function getUserPosts(creator) {
     console.log(error);
   }
 }
-
 
 export async function deletePost(postId, mediaUrl) {
   
@@ -239,29 +254,4 @@ export async function getRecentPosts() {
   }
 }
 
-export async function getPostById(postId) {
-  try {
-    const post = await databases.getDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.postCollectionId,
-      postId
-    );
-    return post;
-  } catch (error) {
-    console.log(error);
-  }
-}
 
-export async function getUserById(userId) {
-  try {
-    const user = await databases.getDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
-      userId
-    );
-    if (!user) throw Error;
-    return user;
-  } catch (error) {
-    console.log(error);
-  }
-}

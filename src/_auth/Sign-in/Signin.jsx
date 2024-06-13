@@ -13,6 +13,7 @@ const Signin = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
+  const [signinError, setSigninError] = useState('');
   const navigate = useNavigate();
   const { checkAuthUser } = useUserContext();
 
@@ -38,7 +39,9 @@ const Signin = () => {
     }
 
     const response = await signInAccount(email, password);
-    if (response) {
+    if (response.error) {
+      setSigninError(response.error);
+    } else {
       await checkAuthUser();
       navigate('/');
     }
@@ -82,6 +85,7 @@ const Signin = () => {
                 />
                 {touched.password && errors.password && <span className={styles.error}>{errors.password}</span>}
               </div>
+              {signinError && <div className={styles.error}>{signinError}</div>}
               <button className={styles.buttonEnviar} type="submit">
                 Entrar
               </button>

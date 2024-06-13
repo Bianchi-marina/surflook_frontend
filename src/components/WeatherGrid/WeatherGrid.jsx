@@ -4,7 +4,9 @@ import flag from "../../assets/light/flag.png";
 import gota from "../../assets/light/gota.png";
 
 const WeatherGrid = ({ weatherData }) => {
-  const { name, main, wind } = weatherData;
+  const { name, main, wind, weather } = weatherData;
+
+  const weatherCondition = weather[0];
 
   return (
     <div className="weather-response">
@@ -12,11 +14,18 @@ const WeatherGrid = ({ weatherData }) => {
         <div className="main-info">
           <p>{name}</p>
           <h1>{main.temp}°C</h1>
+          <p>
+            {main.temp_max}°C / {main.temp_min}°C
+          </p>
         </div>
-
-        <p>
-          {main.temp_max}°C / {main.temp_min}°C
-        </p>
+        <div className="weather-icon">
+            <img
+              src={`http://openweathermap.org/img/wn/${weatherCondition.icon}@2x.png`}
+              alt="Weather Icon"
+              className="weather-icon"
+            />
+            <p>{weatherCondition.main}</p>
+          </div>
       </div>
 
       <div className="bottom-infos">
