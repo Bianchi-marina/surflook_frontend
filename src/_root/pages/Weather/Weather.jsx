@@ -3,7 +3,7 @@ import "./Weather.css";
 import search from "../../../assets/dark/search.png";
 import WeatherGrid from "../../../components/WeatherGrid/WeatherGrid";
 import { fetchCoordinates, fetchWeather } from '../../../api/weatherApi';
-import overlay from "../../../assets/light/overlay.png";
+import { OverlayLogo } from '../../../components/OverlayLogo/OverlayLogo'
 
 const Weather = () => {
   const [city, setCity] = useState('');
@@ -64,14 +64,10 @@ const Weather = () => {
       <div className='container-response'>
       {error && <p className="error-message">{error}</p>}
         {loading && (
-          <div className="overlay">
-            <img src={overlay} alt="Logo" className="overlay-logo" />
-          </div>
+         <OverlayLogo />
         )}
         {!loading && !weatherData && (
-          <div className="overlay">
-            <img src={overlay} alt="Logo" className="overlay-logo" />
-          </div>
+           <OverlayLogo />
         )}
         {weatherData && !loading && <WeatherGrid weatherData={weatherData} />}
       </div>

@@ -47,19 +47,12 @@
     align-items: center;
   }
   
-  .overlay-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .overlay-logo {
-    opacity: 30%;
-  }
-  
   @media (max-width: 768px) {
     .search-by-location-content {
       padding: 1rem;
+    }
+    .search-input {
+      flex-direction: column;
     }
   }
   

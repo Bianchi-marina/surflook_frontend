@@ -6,7 +6,7 @@ import GridPost from "../../../components/GridPost/GridPost";
 // import PopupDeletePost from "../../../components/PopupDeletePost/PopupDeletePost";
 import { useUserContext } from "../../../_auth/AuthContext";
 import { getUserPosts } from "../../../api/api";
-import overlay from "../../../assets/light/overlay.png";
+import { OverlayLogo } from '../../../components/OverlayLogo/OverlayLogo'
 import trashIcon from "../../../assets/light/trash.png";
 
 const Profile = () => {
@@ -76,9 +76,7 @@ const Profile = () => {
           {posts.length > 0 ? (
             <GridPost posts={posts} deleteIcon={deleteIcon} />
           ) : (
-            <div className="overlay-container">
-              <img src={overlay} alt="overlay logo" className="overlay-logo" />
-            </div>
+            <OverlayLogo />
           )}
         </div>
       </section>

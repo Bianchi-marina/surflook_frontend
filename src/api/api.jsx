@@ -136,9 +136,9 @@ export const createPost = async (post) => {
   }
 };
 
-export async function searchPostsByLocation(cidade, praia) {
+export async function searchPostsByLocation(cidade, praia, estado) {
   try {
-    if (!cidade && !praia) {
+    if (!cidade && !praia && !estado) {
       throw { code: 400, message: 'Pelo menos um campo deve ser preenchido' };
     }
 
@@ -147,7 +147,8 @@ export async function searchPostsByLocation(cidade, praia) {
     const filteredPosts = allPosts.filter(post => {
       const hasCidade = cidade ? post.tags[0] === cidade : true;
       const hasPraia = praia ? post.tags[1] === praia : true;
-      return hasCidade && hasPraia;
+      const hasEstado= estado ? post.tags[2] === estado : true;
+      return hasCidade && hasPraia && hasEstado;
     });
 
     if (filteredPosts.length === 0) {

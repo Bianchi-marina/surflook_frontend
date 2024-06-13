@@ -20,17 +20,6 @@
   align-items: center;
 }
 
-.overlay-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.overlay-logo {
-  opacity: 30%;
-}
-
 @media (max-width: 768px) {
   .home-container {
     padding: 1rem;

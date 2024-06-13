@@ -1,8 +1,8 @@
-import "./Home.css";
-import overlay from "../../../assets/light/overlay.png";
 import { useEffect, useState } from "react";
 import GridPost from "../../../components/GridPost/GridPost";
 import { getRecentPosts } from "../../../api/api";
+import {OverlayLogo} from "../../../components/OverlayLogo/OverlayLogo"
+import "./Home.css";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -32,12 +32,10 @@ const Home = () => {
           </p>
           <p>*Os posts são deletados automaticamente ao término do dia</p>
         </div>
-        {posts ? (
+        {posts == [] ? (
           <GridPost posts={posts} />
         ) : (
-          <div className="overlay-container">
-            <img src={overlay} alt="overlay logo" className="overlay-logo" />
-          </div>
+          <OverlayLogo />
         )}
       </div>
     </section>
