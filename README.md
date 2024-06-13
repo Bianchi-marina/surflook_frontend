@@ -1,8 +1,6 @@
 # SurfLook
 
-<div style="position: relative; width: 100%; height: 0; padding-top: 56.25%; overflow: hidden;">
-  <iframe src="./public/logo-video.mp4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
-</div>
+![Logo do Projeto](/public/Logo%20Oficial.png)
 
 ## Sobre o Aplicativo
 
@@ -27,27 +25,8 @@ SurfLook é um aplicativo voltado para surfistas, projetado para compartilhar v�
   - OpenWeather Current Weather Data
 - **Gerenciamento Backend e Autenticação**: Appwrite
 
-## Como Rodar o Projeto
+## Link do projeto 
 
-1. Crie uma pasta local chamada `.env.local` e adicione as seguintes variáveis de ambiente:
-
-2. Certifique-se de ter o Node.js instalado.
-
-3. Rode o seguinte comando no terminal:
-
-# //weather config
-VITE_OPENWEATHERMAP_API_KEY=2048fdc695bead8292a8cec15a302540
-
-# //appwrite config
-VITE_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
-VITE_APPWRITE_PROJECT_ID=66661d9c00218688dfcf
-VITE_APPWRITE_DATABASE_ID=66663c22000f3d430bf5
-VITE_APPWRITE_STORAGE_ID=666745d0002418955122
-VITE_APPWRITE_USER_COLLECTION_ID=66673e79000d90625e8c
-VITE_APPWRITE_POST_COLLECTION_ID=66663e10000778f423ed
-
-# //google maps config
-VITE_GOOGLEMAPS_API_KEY=AIzaSyDVeQKmmyYiIhYZJzkslrChwujSO2vuMb4
 
 
 ## Status do Projeto

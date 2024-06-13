@@ -144,15 +144,19 @@
   color: #001c36dc;
 }
 
-.img {
-  transform: scaleX(-1);
+.imgContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
   border-radius: 18px;
-  transition: 0.3s;
-  opacity: 0.9;
 }
 
-.img:hover {
-  opacity: 1;
+.videoBackground {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
 }
 
 .flexInput {

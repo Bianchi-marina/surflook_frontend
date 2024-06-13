@@ -1,6 +1,6 @@
 import { Link , useNavigate} from "react-router-dom";
 import Logo from "../../assets/_auth/logo.png";
-import Background from "../../assets/_auth/banner.png";
+import logovideo from "../../assets/logo-video.mp4";
 import styles from "./Signup.module.css";
 import { useState, useEffect } from "react";
 
@@ -49,8 +49,16 @@ const Signup = () => {
   return (
     <main className={styles.main}>
       <div className={styles.containerLogin}>
-        <div className={styles.imgContainer}>
-          <img className={styles.img} src={Background} alt="imagem de fundo" />
+      <div className={styles.imgContainer}>
+          <video
+            className={styles.videoBackground}
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src={logovideo} type="video/mp4" />
+          </video>
         </div>
         <div className={styles.loginFormulario}>
           <div className={styles.titleAndFormContainer}>

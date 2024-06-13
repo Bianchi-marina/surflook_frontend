@@ -1,23 +1,22 @@
 import styles from "./Signin.module.css";
-import Background from "../../assets/_auth/banner.png";
+import logovideo from "../../assets/logo-video.mp4";
 import Logo from "../../assets/_auth/logo.png";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import { signInAccount } from '../../api/api';
-import { useUserContext } from '../AuthContext';
-import { signinFormSchema } from '../../validation/index';
+import { useNavigate } from "react-router-dom";
+import { signInAccount } from "../../api/api";
+import { useUserContext } from "../AuthContext";
+import { signinFormSchema } from "../../validation/index";
 
 const Signin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  const [signinError, setSigninError] = useState('');
+  const [signinError, setSigninError] = useState("");
   const navigate = useNavigate();
   const { checkAuthUser } = useUserContext();
 
- 
   useEffect(() => {
     if (touched.email || touched.password) {
       const result = signinFormSchema.safeParse({ email, password });
@@ -43,10 +42,9 @@ const Signin = () => {
       setSigninError(response.error);
     } else {
       await checkAuthUser();
-      navigate('/');
+      navigate("/");
     }
   };
-
 
   return (
     <main className={styles.main}>
@@ -63,27 +61,33 @@ const Signin = () => {
               </p>
             </div>
             <form className={styles.form} onSubmit={handleSignIn}>
-            <div className={styles.flexInput}>
+              <div className={styles.flexInput}>
                 <input
-                  className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
+                  className={`${styles.input} ${
+                    errors.email ? styles.inputError : ""
+                  }`}
                   type="email"
                   placeholder="E-mail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-              
                 />
-               {touched.email && errors.email && <span className={styles.error}>{errors.email}</span>}
+                {touched.email && errors.email && (
+                  <span className={styles.error}>{errors.email}</span>
+                )}
               </div>
               <div className={styles.flexInput}>
                 <input
-                  className={`${styles.input} ${errors.password ? styles.inputError : ''}`}
+                  className={`${styles.input} ${
+                    errors.password ? styles.inputError : ""
+                  }`}
                   type="password"
                   placeholder="Senha"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                 
                 />
-                {touched.password && errors.password && <span className={styles.error}>{errors.password}</span>}
+                {touched.password && errors.password && (
+                  <span className={styles.error}>{errors.password}</span>
+                )}
               </div>
               {signinError && <div className={styles.error}>{signinError}</div>}
               <button className={styles.buttonEnviar} type="submit">
@@ -99,7 +103,15 @@ const Signin = () => {
           </div>
         </div>
         <div className={styles.imgContainer}>
-          <img className={styles.img} src={Background} alt="imagem de fundo" />
+          <video
+            className={styles.videoBackground}
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src={logovideo} type="video/mp4" />
+          </video>
         </div>
       </div>
     </main>
