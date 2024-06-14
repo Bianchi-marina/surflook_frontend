@@ -27,7 +27,7 @@ SurfLook √© um aplicativo voltado para surfistas, projetado para compartilhar v√
 
 ## Link do projeto 
 
-
+warm-hummingbird-a6274c.netlify.app
 
 ## Status do Projeto
 
