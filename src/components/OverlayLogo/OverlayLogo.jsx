@@ -1,4 +1,4 @@
-import overlay from "/src/assets/light/overlay.png";
+import overlay from "@/assets/light/overlay.png";
 
 const OverlayLogo = () => {
   return (

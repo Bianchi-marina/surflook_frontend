@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-import homeInactive from "/src/assets/inactive/home.png";
-import weatherInactive from "/src/assets/inactive/weather.png";
+import homeInactive from "@/assets/inactive/home.png";
+import weatherInactive from "@/assets/inactive/weather.png";
 import { useUserContext } from "../../_auth/AuthContext"
-import searchInactive from "/src/assets/inactive/loc.png";
-import createPost from "/src/assets/light/post.png";
+import searchInactive from "@/assets/inactive/loc.png";
+import createPost from "@/assets/light/post.png";
 
 const Navbar = ( {onCreatePost}) => {
   const { user } = useUserContext()

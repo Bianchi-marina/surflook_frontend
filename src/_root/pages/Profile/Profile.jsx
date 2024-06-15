@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import GridPost from "../../../components/GridPost/GridPost";
 import { useUserContext } from "../../../_auth/AuthContext";
 import { getUserPosts } from "../../../api/api";
-import overlay from "/src/assets/light/overlay.png";
-import trashIcon from "/src/assets/light/trash.png";
+import overlay from "@/assets/light/overlay.png";
+import trashIcon from "@/assets/light/trash.png";
 
 const Profile = () => {
   const { user } = useUserContext();

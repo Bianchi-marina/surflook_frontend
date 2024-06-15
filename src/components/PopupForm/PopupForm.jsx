@@ -1,4 +1,4 @@
-import closeIcon from "/src/assets/light/close.png";
+import closeIcon from "@/assets/light/close.png";
 import styles from "./PopupForm.module.css";
 import { useState } from "react"; 
 

@@ -1,2 +1,5 @@
+# Ignorea node_modules
 node_modules
-.env*
+
+# Não ignore a pasta assets
+!src/assets

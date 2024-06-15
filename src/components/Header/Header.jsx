@@ -1,9 +1,9 @@
 import "./Header.css";
 import { useEffect } from 'react';
-import logo from "/src/assets/light/logo.png";
-import moon from "/src/assets/light/moon.png";
-import sun from "/src/assets/light/sun.png";
-import logout from "/src/assets/light/logout.png";
+import logo from "@/assets/light/logo.png";
+import moon from "@/assets/light/moon.png";
+import sun from "@/assets/light/sun.png";
+import logout from "@/assets/light/logout.png";
 import { useUserContext } from "../../_auth/AuthContext"
 import { applyStoredTheme, toggleTheme } from '../../api/theme';
 

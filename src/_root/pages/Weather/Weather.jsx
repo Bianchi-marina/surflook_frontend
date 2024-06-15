@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./Weather.css";
-import search from "/src/assets/dark/search.png";
+import search from "@/assets/dark/search.png";
 import WeatherGrid from "../../../components/WeatherGrid/WeatherGrid";
 import { fetchCoordinates, fetchWeather } from "../../../api/weatherApi";
-import overlay from "/src/assets/light/overlay.png";
+import overlay from "@/assets/light/overlay.png";
 
 const Weather = () => {
   const [city, setCity] = useState("");

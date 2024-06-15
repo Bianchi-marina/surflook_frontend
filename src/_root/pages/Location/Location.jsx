@@ -1,9 +1,9 @@
 import "./Location.css";
 import { useState } from "react";
 import GridPost from "../../../components/GridPost/GridPost";
-import search from "/src/assets/dark/search.png";
+import search from "@/assets/dark/search.png";
 import { searchPostsByLocation } from "../../../api/api";
-import overlay from "/src/assets/light/overlay.png";
+import overlay from "@/assets/light/overlay.png";
 import { validateLocation } from "../../../api/googleMaps";
 
 const Location = () => {

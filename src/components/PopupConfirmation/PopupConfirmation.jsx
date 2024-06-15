@@ -1,4 +1,4 @@
-import closeIcon from "../../assets/light/close.png";
+import closeIcon from "@/assets/light/close.png";
 import styles from "../PopupForm/PopupForm.module.css";
 
 const PopupConfirmation = ({ isOpen, onClose, onConfirm, title, subtitle }) => {
