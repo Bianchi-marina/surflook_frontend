@@ -6,7 +6,7 @@ const PopupConfirmation = ({ isOpen, onClose, onConfirm, title, subtitle }) => {
 
   return (
     <div className={styles.popupOverlay}>
-      <div className={styles.popupContent}>
+      <div className={styles.popupContentConfirmation}>
         <button className={styles.closeButton} onClick={onClose}>
           <img src={closeIcon} alt="Close" />
         </button>
