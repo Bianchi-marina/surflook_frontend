@@ -1,9 +1,9 @@
 import "./Location.css";
 import { useState } from "react";
 import GridPost from "../../../components/GridPost/GridPost";
-import search from "../../../assets/dark/search.png";
+import search from "/src/assets/dark/search.png";
 import { searchPostsByLocation } from "../../../api/api";
-import overlay from "../../../assets/light/overlay.png";
+import overlay from "/src/assets/light/overlay.png";
 import { validateLocation } from "../../../api/googleMaps";
 
 const Location = () => {
@@ -55,34 +55,37 @@ const Location = () => {
   return (
     <section className="search-by-location-container">
       <div className="search-by-location-content">
-        <div className="intro-text">
-          <p>Procure checks por cidade e praias</p>
+        <div className="search-container">
+          <div className="intro-text">
+            <p>Procure checks por cidade e praias</p>
+          </div>
+          <div className="search-input">
+            <input
+              type="text"
+              placeholder="Cidade..."
+              value={cidade}
+              onChange={(e) => setCidade(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Estado..."
+              value={estado}
+              onChange={(e) => setEstado(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Praia..."
+              value={praia}
+              onChange={(e) => setPraia(e.target.value)}
+            />
+            <button onClick={handleSearch}>
+              <img src={search} alt="Search Icon" />
+            </button>
+          </div>
         </div>
-        <div className="search-input">
-          <input
-            type="text"
-            placeholder="Cidade..."
-            value={cidade}
-            onChange={(e) => setCidade(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Estado..."
-            value={estado}
-            onChange={(e) => setEstado(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Praia..."
-            value={praia}
-            onChange={(e) => setPraia(e.target.value)}
-          />
-          <button onClick={handleSearch}>
-            <img src={search} alt="Search Icon" />
-          </button>
-        </div>
+
         {error && <div className="error">{error}</div>}
         {loading ? (
           <div>Buscando checks...</div>

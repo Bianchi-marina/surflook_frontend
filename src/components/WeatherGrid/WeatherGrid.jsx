@@ -1,7 +1,7 @@
 import "./WeatherGrid.css";
-import vento from "../../assets/light/vento.png";
-import flag from "../../assets/light/flag.png";
-import gota from "../../assets/light/gota.png";
+import vento from "/src/assets/light/vento.png";
+import flag from "/src/assets/light/flag.png";
+import gota from "/src/assets/light/gota.png";
 
 const WeatherGrid = ({ weatherData }) => {
   const { name, main, wind, weather } = weatherData;

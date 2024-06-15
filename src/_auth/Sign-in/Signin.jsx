@@ -1,14 +1,14 @@
 import styles from "./Signin.module.css";
-import logovideo from "../../assets/logo-video.mp4";
-import Logo from "../../assets/_auth/logo.png";
+import logovideo from "/src/assets/logo-video.mp4";
+import Logo from "/src/assets/_auth/logo.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 import { signInAccount } from "../../api/api";
 import { useUserContext } from "../AuthContext";
 import { signinFormSchema } from "../../validation/index";
 
-const Signin = () => {
+const Signin = () => { 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});

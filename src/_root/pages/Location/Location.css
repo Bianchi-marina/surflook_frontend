@@ -1,11 +1,11 @@
-.search-by-location-container {
-  margin: 0 auto;
-}
-
 .search-by-location-content {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+}
+
+.search-container {
+  margin-bottom: 20px;
 }
 
 .intro-text {
@@ -65,5 +65,8 @@ button {
   }
   .search-input {
     flex-direction: column;
+  }
+  input[type="text"] {
+    width: auto;
   }
 }

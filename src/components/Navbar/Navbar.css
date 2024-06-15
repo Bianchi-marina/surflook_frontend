@@ -16,6 +16,7 @@
     flex: 1;
     gap: 2rem;
   }
+
   
   .navbar-create-post {
     position: relative;
@@ -42,6 +43,13 @@
     width: 24px;
     height: 24px;
     transition: filter 0.1s;
+  }
+
+  
+  .icon-user {
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
   }
 
   .icon:hover {

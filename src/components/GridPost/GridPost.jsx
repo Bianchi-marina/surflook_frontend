@@ -19,9 +19,7 @@ const GridPost = ({ posts, deleteIcon }) => {
       setLoading(false);
     }
   };
-
-  console.log("posts", posts);
-
+  
   return (
     <div className="grid-post">
       {posts.map((post) => (

@@ -1,6 +1,6 @@
 import { Link , useNavigate} from "react-router-dom";
-import Logo from "../../assets/_auth/logo.png";
-import logovideo from "../../assets/logo-video.mp4";
+import Logo from "/src/assets/_auth/logo.png";
+import logovideo from "/src/assets/logo-video.mp4";
 import styles from "./Signup.module.css";
 import { useState, useEffect } from "react";
 

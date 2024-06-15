@@ -1,11 +1,11 @@
-import { ID, Query } from "./appwrite";
+import { ID, Query } from "../appwrite";
 import {
   account,
   appwriteConfig,
   avatars,
   databases,
   storage,
-} from "./appwrite";
+} from "../appwrite";
 
 export async function createUserAccount(user) {
   try {
@@ -227,5 +227,3 @@ export async function getRecentPosts() {
     console.log(error);
   }
 }
-
-

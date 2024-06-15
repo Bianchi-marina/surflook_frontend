@@ -90,7 +90,11 @@
     padding: 1rem;
   }
 
-  .header-right {
-    padding-right: 20px;
+  .header-left {
+    display: none;
+  }
+
+  .header-center{
+    margin-left: 20px;
   }
 }
