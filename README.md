@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SurfLook
 
 ![Logo do Projeto](/public/Logo%20Oficial.png)
@@ -36,3 +37,6 @@ O aplicativo ainda está em construção, com novas funcionalidades e melhorias 
 --------------------------------------
 
 **Aproveite e boas ondas!**
+=======
+SurfLook
+>>>>>>> 3a9afc16ba9940c56bb0f7bd7d13bf4620b6624d
