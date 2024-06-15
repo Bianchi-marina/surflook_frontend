@@ -47,8 +47,25 @@ export async function saveUserToDB(user) {
   }
 }
 
+
+export async function checkAndLogoutActiveSession() {
+  try {
+    const currentSession = await account.getSession('current');
+    if (currentSession) {
+      await account.deleteSession('current');
+    }
+  } catch (error) {
+    if (error.code !== 404) {
+      console.error('Error checking or logging out active session:', error);
+    }
+  }
+}
+
+
 export const signInAccount = async (email, password) => {
   try {
+    await checkAndLogoutActiveSession();
+
     const response = await account.createEmailPasswordSession(email, password);
     return response;
   } catch (error) {
